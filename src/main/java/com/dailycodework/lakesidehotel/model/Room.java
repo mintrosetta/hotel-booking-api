@@ -7,8 +7,10 @@ import java.util.List;
 
 import org.apache.commons.lang3.RandomStringUtils;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -34,7 +36,7 @@ public class Room {
     @Column(name = "is_booked")
     private Boolean isBooked = false;
 
-    @OneToMany(mappedBy = "room")
+    @OneToMany(mappedBy = "room", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<BookRoom> bookings;
 
     @Lob
@@ -102,4 +104,13 @@ public class Room {
         String bookingCode = RandomStringUtils.randomNumeric(10);
         booking.setBookingConfirmationCode(bookingCode);
     }
+
+    public Blob getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(Blob photo) {
+        this.photo = photo;
+    }
+
 }
